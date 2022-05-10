@@ -444,7 +444,7 @@ class TitleState extends MusicBeatState
 				if(titleText != null) titleText.animation.play('press');
 
 				FlxG.camera.flash(FlxColor.WHITE, 1);
-				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+				FlxG.sound.play(Paths.sound('confirmMenu2'), 0.7);
 
 				transitioning = true;
 				// FlxG.sound.music.stop();
@@ -673,7 +673,7 @@ class TitleState extends MusicBeatState
 						skippedIntro = true;
 						playJingle = false;
 						
-						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+						FlxG.sound.playMusic(Paths.music('Tiky_Demce'), 0);
 						FlxG.sound.music.fadeIn(4, 0, 0.7);
 						return;
 				}
