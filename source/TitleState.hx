@@ -67,14 +67,6 @@ class TitleState extends MusicBeatState
 
 	var wackyImage:FlxSprite;
 
-	#if TITLE_SCREEN_EASTER_EGG
-	var easterEggKeys:Array<String> = [
-		'SHADOW', 'RIVER', 'SHUBS', 'BBPANZU'
-	];
-	var allowedKeys:String = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	var easterEggKeysBuffer:String = '';
-	#end
-
 	var mustUpdate:Bool = false;
 	
 	var titleJSON:TitleData;
@@ -244,12 +236,12 @@ class TitleState extends MusicBeatState
 			// https://github.com/HaxeFlixel/flixel-addons/pull/348
 
 			// var music:FlxSound = new FlxSound();
-			// music.loadStream(Paths.music('freakyMenu'));
+			// music.loadStream(Paths.music('Tiky_Demce'));
 			// FlxG.sound.list.add(music);
 			// music.play();
 
 			if(FlxG.sound.music == null) {
-				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+				FlxG.sound.playMusic(Paths.music('Tiky_Demce'), 0);
 
 				FlxG.sound.music.fadeIn(4, 0, 0.7);
 			}
@@ -568,9 +560,9 @@ class TitleState extends MusicBeatState
 		if(gfDance != null) {
 			danceLeft = !danceLeft;
 			if (danceLeft)
-				gfDance.animation.play('danceRight');
+				gfDance.animation.play('gfDance');
 			else
-				gfDance.animation.play('danceLeft');
+				gfDance.animation.play('gfDance');
 		}
 
 		if(!closedState) {
