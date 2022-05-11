@@ -123,8 +123,7 @@ class MasterEditorMenu extends MusicBeatState
 				case 'Week Editor':
 					MusicBeatState.switchState(new WeekEditorState());
 				case 'Menu Character Editor':
-					MusicBeatState.switchState(new MenuCharacterEditorState(
-					fixEditorState());
+					MusicBeatState.switchState(new MenuCharacterEditorState());
 				case 'Dialogue Portrait Editor':
 					LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
 				case 'Dialogue Editor':
