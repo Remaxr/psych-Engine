@@ -1,4 +1,4 @@
-# Friday Night Funkin' - Psych Engine Android Support
+# Friday Night Funkin' - Psych Engine tricky phase 5 port Android and pc
 Engine originally used on [Mind Games Mod](https://gamebanana.com/mods/301107), intended to be a fix for the vanilla version's many issues while keeping the casual play aspect of it. Also aiming to be an easier alternative to newbie coders.
 
 ## Installation:
