@@ -3,26 +3,26 @@ package;
 #if desktop
 import Discord.DiscordClient;
 #end
-import flixel.FlxSubState;
+import editors.ChartingState;
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
+import flixel.addons.effects.FlxSkewedSprite;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.group.FlxGroup;
+import flixel.tweens.FlxEase;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
-#if MODS_ALLOWED
-import flixel.util.FlxTimer;
 import lime.utils.Assets;
-import lime.net.curl.CURLCode;
 import flixel.system.FlxSound;
 import openfl.utils.Assets as OpenFlAssets;
 import WeekData;
+#if MODS_ALLOWED
+import sys.FileSystem;
+#end
 
 using StringTools;
 
