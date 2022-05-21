@@ -44,19 +44,18 @@ class FreeplayState extends MusicBeatState
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
 
-	public var bgMania:FlxSprite;
-    public var txtMania1:FlxText;
-    public var txtMania2:FlxText;
+	private var iconArray:Array<HealthIcon> = [];
 
-var bg:FlxSprite;
+	var bg:FlxSprite;
 	var intendedColor:Int;
 	var colorTween:FlxTween;
-	
+
 	override function create()
 	{
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 		
+		persistentUpdate = true;
 		PlayState.isStoryMode = false;
 		WeekData.reloadWeekFiles(false);
 
@@ -93,30 +92,55 @@ var bg:FlxSprite;
 
 		/*		//KIND OF BROKEN NOW AND ALSO PRETTY USELESS//
 
-		bg = new FlxSprite().loadGraphic(Paths.image('freeplayBG'));
-		bg.antialiasing = ClientPrefs.globalAntialiasing;
-     
-		add(bg);
+		var initSonglist = CoolUtil.coolTextFile(Paths.txt('freeplaySonglist'));
+		for (i in 0...initSonglist.length)
+		{
+			if(initSonglist[i] != null && initSonglist[i].length > 0) {
+				var songArray:Array<String> = initSonglist[i].split(":");
+				addSong(songArray[0], 0, songArray[1], Std.parseInt(songArray[2]));
+			}
+		}*/
+
+		bg = new FlxSprite();
+		bg.frames = Paths.getSparrowAtlas('menuBG');
+		bg.animation.addByPrefix('idle', 'jiemianBackground', 12, true);
+		bg.animation.play('idle');
+		bg.setGraphicSize(Std.int(bg.width * 0.67));
+		bg.updateHitbox();
 		bg.screenCenter();
-			  
-			
-			
-			
-			
-			
-			
-			
-		grpSongs = new FlxTypedGroup<FlxSkewedSprite>();
+		bg.antialiasing = ClientPrefs.globalAntialiasing;
+		add(bg);
+
+		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
 
 		for (i in 0...songs.length)
 		{
-			var songText:FlxSkewedSprite = new FlxSkewedSprite(0,0,Paths.image('jackets/' + Paths.formatToSongPath(songs[i].songName)));
-
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
+			songText.isMenuItem = true;
+			songText.targetY = i;
 			grpSongs.add(songText);
 
-			Paths.currentModDirectory = songs[i].folder;
+			if (songText.width > 980)
+			{
+				var textScale:Float = 980 / songText.width;
+				songText.scale.x = textScale;
+				for (letter in songText.lettersArray)
+				{
+					letter.x *= textScale;
+					letter.offset.x *= textScale;
+				}
+				//songText.updateHitbox();
+				//trace(songs[i].songName + ' new scale: ' + textScale);
+			}
 
+			Paths.currentModDirectory = songs[i].folder;
+			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter);
+			icon.sprTracker = songText;
+
+			// using a FlxGroup is too much fuss!
+			iconArray.push(icon);
+			add(icon);
 
 			// songText.x += 40;
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
@@ -130,19 +154,6 @@ var bg:FlxSprite;
 		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 66, 0xFF000000);
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
-
-		      bgMania = new FlxSprite(FlxG.width - 500,scoreBG.y + scoreBG.height);
-        bgMania.makeGraphic(500,46,FlxColor.BLACK);
-        bgMania.alpha = 0;
-        add(bgMania);
-        
-        txtMania2 = new FlxText(bgMania.x + 2, bgMania.y + 18, 0, "", 18);
-		txtMania2.setFormat(Paths.font("vcr.ttf"), 22, FlxColor.WHITE, LEFT);
-		txtMania2.alpha = 0;
-        
-        
-        add(txtMania1);
-        add(txtMania2);
 
 		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
 		diffText.font = scoreText.font;
@@ -186,10 +197,6 @@ var bg:FlxSprite;
 		textBG.alpha = 0.6;
 		add(textBG);
 
-		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
-		textBG.alpha = 0.6;
-		add(textBG);
-
 		#if PRELOAD_ALL
 		#if android
 		var leText:String = "Press X to listen to the Song / Press C to open the Gameplay Changers Menu / Press Y to Reset your Score and Accuracy.";
@@ -216,19 +223,18 @@ var bg:FlxSprite;
 
 	override function closeSubState() {
 		changeSelection(0, false);
+		persistentUpdate = true;
 		super.closeSubState();
 	}
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int)
 	{
-        var songPathName = Paths.formatToSongPath(songName);
-        trace(songPathName);
-        if (FlxG.save.data.weekCompleted == null && (songPathName == 'gain-stage-mania' || songPathName == 'daw-wars-mania' || songPathName == 'daw-wars' || songPathName == 'means-of-destruction')) 
-        {
-            return;       
-        } else {
-            songs.push(new SongMetadata(songName, weekNum, songCharacter, color));
-        }
+		songs.push(new SongMetadata(songName, weekNum, songCharacter, color));
+	}
+
+	function weekIsLocked(name:String):Bool {
+		var leWeek:WeekData = WeekData.weeksLoaded.get(name);
+		return (!leWeek.startUnlocked && leWeek.weekBefore.length > 0 && (!StoryMenuState.weekCompleted.exists(leWeek.weekBefore) || !StoryMenuState.weekCompleted.get(leWeek.weekBefore)));
 	}
 
 	/*public function addWeek(songs:Array<String>, weekNum:Int, weekColor:Int, ?songCharacters:Array<String>)
@@ -249,6 +255,7 @@ var bg:FlxSprite;
 
 	var instPlaying:Int = -1;
 	private static var vocals:FlxSound = null;
+	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
 		if (FlxG.sound.music.volume < 0.7)
