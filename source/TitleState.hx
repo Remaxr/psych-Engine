@@ -651,7 +651,6 @@ class TitleState extends MusicBeatState
 			case 31:
 				addMoreText('or smth lol');
 			case 32:
-			deleteCoolText();
 					skipIntro();
 			}
 		}
