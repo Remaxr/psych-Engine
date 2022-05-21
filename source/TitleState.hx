@@ -577,80 +577,64 @@ class TitleState extends MusicBeatState
 			sickBeats++;
 			switch (sickBeats)
 			{
+				case 1:
+					#if mad_WATERMARKS
+					createCoolText(['mad Engine by'], 15);
+					#else
+					createCoolText(['remaxr']);
+					#end
+				// credTextShit.visible = true;
+				case 3:
+					#if mad_WATERMARKS
+					addMoreText('remaxr', 15);
+					#else
+					addMoreText('present');
+					#end
+				// credTextShit.text += '\npresent...';
+				// credTextShit.addText();
+				case 4:
+					deleteCoolText();
+				// credTextShit.visible = false;
+				// credTextShit.text = 'In association \nwith';
+				// credTextShit.screenCenter();
 				case 5:
-				createCoolText(['KadeDev'], 135);
-			// credTextShit.visible = true;
-			case 6:
-				addMoreText('Banbuds', 135);
-			case 7:
-				addMoreText('Cval', 135);
-			case 8:
-				addMoreText('Rozebud', 135);
-			case 9:
-				ngSpr.visible = true;
-			// credTextShit.visible = false;
-			// credTextShit.text = 'In association \nwith';
-			// credTextShit.screenCenter();
-			case 10:
-				deleteCoolText();
-				ngSpr.visible = false;
-				createCoolText(['With help from'], 135);
-			case 11:
-				addMoreText('MORO', 135);
-			case 12:
-				addMoreText('YingYang', 135);
-			case 13:
-				addMoreText('Jads', 135);
-			case 14:
-				backupMen.visible = true;
-			case 15:
-				deleteCoolText();
-				createCoolText(['Newgrounds']);
-				backupMen.visible = false;
-			case 16:
-				addMoreText('is pog');
-				actualNG.visible = true;
-			case 17:
-				actualNG.visible = false;
-				deleteCoolText();
-				createCoolText([curWacky[0]]);
-			case 18:
-				addMoreText(curWacky[1]);
-			case 19:
-				curWacky = FlxG.random.getObject(getIntroTextShit());
-				deleteCoolText();
-				createCoolText([curWacky[0]]);
-			case 20:
-				addMoreText(curWacky[1]);
-			case 21:
-				curWacky = FlxG.random.getObject(getIntroTextShit());
-				deleteCoolText();
-				createCoolText([curWacky[0]]);
-			case 22:
-				addMoreText(curWacky[1]);
-			case 23:
-				curWacky = FlxG.random.getObject(getIntroTextShit());
-				deleteCoolText();
-				createCoolText([curWacky[0]]);
-			case 24:
-				addMoreText(curWacky[1]);
-			case 25:
-				curWacky = FlxG.random.getObject(getIntroTextShit());
-				deleteCoolText();
-				createCoolText([curWacky[0]]);
-			case 26:
-				addMoreText(curWacky[1]);
-			case 27:
-				deleteCoolText();
-				createCoolText(['chicken dance remix']);
-			case 28:
-				addMoreText('by Tsuraran');
-			case 30:
-				deleteCoolText();
-				createCoolText(['the drop']);
-			case 31:
-				addMoreText('or smth lol');
-			case 32:
+					#if mad_WATERMARKS
+					createCoolText(['Not associated', 'with'], -40);
+					#else
+					createCoolText(['In association', 'with'], -40);
+					#end
+				case 7:
+					addMoreText('newgrounds', -40);
+					ngSpr.visible = true;
+				// credTextShit.text += '\nNewgrounds';
+				case 8:
+					deleteCoolText();
+					ngSpr.visible = false;
+				// credTextShit.visible = false;
+
+				// credTextShit.text = 'Shoutouts Tom Fulp';
+				// credTextShit.screenCenter();
+				case 9:
+					createCoolText([curWacky[0]]);
+				// credTextShit.visible = true;
+				case 11:
+					addMoreText(curWacky[1]);
+				// credTextShit.text += '\nlmao';
+				case 12:
+					deleteCoolText();
+				// credTextShit.visible = false;
+				// credTextShit.text = "Friday";
+				// credTextShit.screenCenter();
+				case 13:
+					addMoreText('mad');
+				// credTextShit.visible = true;
+				case 14:
+					addMoreText('Night');
+				// credTextShit.text += '\nNight';
+				case 15:
+					addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
+
+				case 16:
 					skipIntro();
 			}
 		}
