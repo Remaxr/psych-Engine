@@ -1,5 +1,8 @@
-#if sys
 package;
+
+#if desktop
+import Discord.DiscordClient;
+#end
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
@@ -11,19 +14,11 @@ import flixel.math.FlxPoint;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
 import flixel.system.FlxSound;
-import lime.app.Application;
-#if windows
-import Discord.DiscordClient;
-#end
 import openfl.display.BitmapData;
 import openfl.utils.Assets;
-import haxe.Exception;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
-#if cpp
-import sys.FileSystem;
-import sys.io.File;
 #end
 
 using StringTools;
@@ -47,9 +42,10 @@ class Cache extends MusicBeatState
 		bitmapData = new Map<String,FlxGraphic>();
 		bitmapData2 = new Map<String,FlxGraphic>();
 
-		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image('loadingScreens/loadingscreen-' + FlxG.random.int(1, 8)));
-		menuBG.screenCenter();
-		add(menuBG);
+		var menuBG:FlxSprite = new FlxSprite().FlxSprite().loadGraphic(Paths.image('loadingScreens/loadingscreen-'      + FlxG.random.int(1, 8)));
+       menuBG.screenCenter();
+       add(menuBG);
+
 
 		shitz = new FlxText(12, 12, 0, "Loading...", 12);
 		shitz.scrollFactor.set();
@@ -84,7 +80,7 @@ class Cache extends MusicBeatState
 
 	function cache()
 	{
-		#if !linux
+		#if android
 			var sound1:FlxSound;
 			sound1 = new FlxSound().loadEmbedded(Paths.voices('fresh'));
 			sound1.play();
